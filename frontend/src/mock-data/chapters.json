@@ -1,0 +1,80 @@
+[
+  {
+    "id": "c6-sci-ch1",
+    "classLevel": 6,
+    "subject": "Science",
+    "subjectColor": "#4EA8DE",
+    "chapterNumber": 1,
+    "title": "Components of Food",
+    "subtitle": "Discovering Carbohydrates, Proteins, Fats, and Vitamins that Power Our Bodies!",
+    "summary": "Food is essential for all living beings. It provides nutrients like carbohydrates, proteins, fats, vitamins, and minerals that help our body grow, repair cells, and stay healthy.",
+    "sections": [
+      {
+        "id": "sec-1",
+        "heading": "1. What are Nutrients?",
+        "content": "The major nutrients in our food are named carbohydrates, proteins, fats, vitamins, and minerals. In addition, food contains dietary fibres and water which are needed by our body.",
+        "pullQuote": "Carbohydrates and fats mainly provide energy to our body. Food containing fats and carbohydrates are also called 'energy giving foods'.",
+        "digDeeper": "Carbohydrates give us quick energy (like sugar and starch in potatoes or rice), while Fats store energy for later (like butter and oils)."
+      },
+      {
+        "id": "sec-2",
+        "heading": "2. Proteins and Growth",
+        "content": "Proteins are needed for the growth and repair of our body. Foods proteins are often called 'body building foods'. Pulses, milk, fish, meat, and eggs are rich sources of protein.",
+        "pullQuote": "Growing children need more proteins in their diet than adults because their bones and tissues are constantly expanding!",
+        "digDeeper": "Pulses (Dal) and paneer are top plant-based proteins loved across Indian households."
+      },
+      {
+        "id": "sec-3",
+        "heading": "3. Vitamins & Deficiency Diseases",
+        "content": "Vitamins help in protecting our body against diseases. They also help in keeping our eyes, bones, teeth, and gums healthy. Lack of Vitamin A causes night blindness, while lack of Vitamin C causes Scurvy.",
+        "pullQuote": "Vitamin D helps our body to use calcium for bones and teeth. Our body also prepares Vitamin D in the presence of sunlight!",
+        "digDeeper": "Fresh citrus fruits like oranges, lemon, and amla are packed with Vitamin C to boost your immune system."
+      }
+    ]
+  },
+  {
+    "id": "c6-math-ch1",
+    "classLevel": 6,
+    "subject": "Math",
+    "subjectColor": "#FFD166",
+    "chapterNumber": 1,
+    "title": "Knowing Our Numbers",
+    "subtitle": "Unlocking Lakhs, Crores, Place Value, and Comparing Large Numbers!",
+    "summary": "Numbers help us count objects, compare quantities, and organize information. Understanding the Indian and International Numeral Systems allows us to handle huge numbers easily.",
+    "sections": [
+      {
+        "id": "sec-1",
+        "heading": "1. Comparing Numbers",
+        "content": "To compare two numbers, first check the number of digits. The number with more digits is greater! If digit count is equal, start comparing from the leftmost place value.",
+        "pullQuote": "99,999 + 1 = 1,000,000 (One Lakh). Adding 1 to the largest 5-digit number gives the smallest 6-digit number!",
+        "digDeeper": "In the Indian System of Numeration, we use Lakhs and Crores. Commas are placed after 3 digits from right, then after every 2 digits (e.g., 1,23,45,678)."
+      },
+      {
+        "id": "sec-2",
+        "heading": "2. Estimation and Rounding Off",
+        "content": "Estimation means finding a number that is close to the exact amount. Rounding off to nearest tens, hundreds, or thousands helps quick mental calculations.",
+        "pullQuote": "If the digit at the unit place is 5 or more, round UP! If it's less than 5, round DOWN.",
+        "digDeeper": "For example, 47 rounded to nearest 10 is 50, whereas 42 rounded to nearest 10 is 40."
+      }
+    ]
+  },
+  {
+    "id": "c5-sci-ch1",
+    "classLevel": 5,
+    "subject": "Science",
+    "subjectColor": "#06D6A0",
+    "chapterNumber": 1,
+    "title": "Super Senses",
+    "subtitle": "How Animals See, Hear, Smell, and Feel the World Around Them!",
+    "summary": "Animals have amazing senses of sight, hearing, smell, and taste. Ants follow scent trails, eagles spot prey from miles away, and dogs smell hidden objects!",
+    "sections": [
+      {
+        "id": "sec-1",
+        "heading": "1. The Power of Smell in Ants & Dogs",
+        "content": "As ants move, they leave a smell (pheromone) on the ground. The other ants follow the line by smelling their way!",
+        "pullQuote": "Dogs mark their own area on the road. They can make out if another dog has come into their area by the smell of its urine or stool.",
+        "digDeeper": "Mosquitoes can find you by the smell of your body, the heat of your body, and the smell of the sole of your feet!"
+      }
+    ]
+  }
+]

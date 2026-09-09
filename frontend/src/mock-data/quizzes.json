@@ -1,0 +1,41 @@
+[
+  {
+    "id": "q1",
+    "chapterId": "c6-sci-ch1",
+    "question": "Which of the following is known as an 'energy-giving food'?",
+    "options": [
+      { "key": "A", "text": "Proteins" },
+      { "key": "B", "text": "Carbohydrates and Fats" },
+      { "key": "C", "text": "Roughage / Dietary Fibre" },
+      { "key": "D", "text": "Water" }
+    ],
+    "correctKey": "B",
+    "explanation": "Carbohydrates and fats provide the primary energy for all bodily functions and physical activity!"
+  },
+  {
+    "id": "q2",
+    "chapterId": "c6-sci-ch1",
+    "question": "Which vitamin is synthesized by our body when exposed to sunlight?",
+    "options": [
+      { "key": "A", "text": "Vitamin A" },
+      { "key": "B", "text": "Vitamin B1" },
+      { "key": "C", "text": "Vitamin C" },
+      { "key": "D", "text": "Vitamin D" }
+    ],
+    "correctKey": "D",
+    "explanation": "Sunlight helps the skin produce Vitamin D, which keeps bones and teeth strong by aiding calcium absorption."
+  },
+  {
+    "id": "q3",
+    "chapterId": "c6-math-ch1",
+    "question": "What is the smallest 6-digit number?",
+    "options": [
+      { "key": "A", "text": "99,999" },
+      { "key": "B", "text": "1,00,000 (One Lakh)" },
+      { "key": "C", "text": "10,000" },
+      { "key": "D", "text": "1,00,001" }
+    ],
+    "correctKey": "B",
+    "explanation": "Adding 1 to the largest 5-digit number (99,999) gives 1,00,000, which is the smallest 6-digit number!"
+  }
+]

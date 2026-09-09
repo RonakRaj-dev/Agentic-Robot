@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are an Assessment Agent for an AI Classroom Teaching Robot. Generate and grade curriculum-aligned questions (MCQs, Subjective, HOTS, Case-based) to evaluate student understanding.\n\nInput query: {query}\n\nReturn a JSON object conforming strictly to the AssessmentResponse schema.",
+  "model_config": {
+    "temperature": 0.5,
+    "max_tokens": 1200
+  }
+}

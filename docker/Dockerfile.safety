@@ -1,0 +1,11 @@
+FROM edubot-base:latest
+
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 8007
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "services/agents_microservices/safety_service.py"]

@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Space+Grotesk:wght@300..900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Hanken Grotesk', sans-serif;
+  --font-pixel: 'JetBrains Mono', monospace;
+
+  /* Stitch MCP EduBot Pixel Canvas - Neo-Arcade Color Tokens */
+  --color-background: #fcf9f8;
+  --color-on-background: #1c1b1b;
+  --color-surface: #fcf9f8;
+  --color-surface-dim: #dcd9d9;
+  --color-surface-container: #f0eded;
+  --color-surface-container-high: #eae7e7;
+  --color-surface-container-highest: #e5e2e1;
+  --color-surface-container-lowest: #ffffff;
+  
+  --color-primary: #bc000a; /* Arcade Red */
+  --color-primary-container: #e2241f;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #fffbff;
+
+  --color-secondary: #745b00; /* Arcade Yellow */
+  --color-secondary-container: #fecb00;
+  --color-on-secondary-container: #6e5700;
+
+  --color-tertiary: #006b27; /* Vibrant Pixel Green */
+  --color-tertiary-container: #008733;
+  --color-tertiary-fixed: #72fe88;
+  --color-on-tertiary-container: #f7fff2;
+
+  --color-outline: #926f6a;
+  --color-outline-variant: #e7bdb7;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-on-background);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+h1, h2, h3, h4, h5, h6, .font-headline {
+  font-family: var(--font-headline);
+  letter-spacing: -0.02em;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
+/* Pixel Borders and Brutalist Shadows from Stitch MCP */
+.pixel-border {
+  border: 3px solid #1c1b1b;
+}
+
+.pixel-corners {
+  clip-path: polygon(
+    4px 0px, calc(100% - 4px) 0px, 
+    100% 4px, 100% calc(100% - 4px), 
+    calc(100% - 4px) 100%, 4px 100%, 
+    0px calc(100% - 4px), 0px 4px
+  );
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0px 0px #1c1b1b;
+}
+
+.brutal-shadow-lg {
+  box-shadow: 8px 8px 0px 0px #1c1b1b;
+}
+
+.brutal-button-active:active {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 0px 0px 0px 0px #1c1b1b !important;
+}
+
+.hard-shadow-hover:hover {
+  box-shadow: 0px 0px 0px 0px #1c1b1b;
+  transform: translate(4px, 4px);
+  transition: all 0.05s ease-in-out;
+}
+
+/* Dithering Background Pattern */
+.bg-dither {
+  background-image: radial-gradient(#1c1b1b 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Custom Scrollbar for Kiosk Panels */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f0eded;
+  border-left: 2px solid #1c1b1b;
+}
+::-webkit-scrollbar-thumb {
+  background: #bc000a;
+  border: 2px solid #1c1b1b;
+}

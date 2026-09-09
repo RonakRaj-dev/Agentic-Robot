@@ -1,0 +1,172 @@
+services:
+  base:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.base
+    image: edubot-base:latest
+
+  redis:
+    image: redis:7-alpine
+    container_name: edubot-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  mongodb:
+    image: mongo:7.0
+    container_name: edubot-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: SiliconRag
+
+  qdrant:
+    image: qdrant/qdrant:v1.7.4
+    container_name: edubot-qdrant
+    ports:
+      - "6333:6333"
+
+  agent-validation:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.validator
+    container_name: edubot-agent-validation
+    ports:
+      - "8001:8001"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    depends_on:
+      - base
+
+  agent-retrieval:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.retrieval
+    container_name: edubot-agent-retrieval
+    ports:
+      - "8002:8002"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - QDRANT_URL=http://qdrant:6333
+      - MONGO_URI=mongodb://mongodb:27017
+    depends_on:
+      - base
+      - qdrant
+      - mongodb
+
+  agent-teaching:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.teaching
+    container_name: edubot-agent-teaching
+    ports:
+      - "8003:8003"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    depends_on:
+      - base
+
+  agent-quiz:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.quiz
+    container_name: edubot-agent-quiz
+    ports:
+      - "8004:8004"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    depends_on:
+      - base
+
+  agent-flashcard:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.flashcard
+    container_name: edubot-agent-flashcard
+    ports:
+      - "8005:8005"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    depends_on:
+      - base
+
+  agent-video:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.video
+    container_name: edubot-agent-video
+    ports:
+      - "8006:8006"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    depends_on:
+      - base
+
+  agent-safety:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.safety
+    container_name: edubot-agent-safety
+    ports:
+      - "8007:8007"
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - base
+
+  agent-supervisor:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.supervisor
+    container_name: edubot-agent-supervisor
+    ports:
+      - "8008:8008"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - AGENT_MODE=microservice
+      - VALIDATIONAGENT_URL=http://agent-validation:8001
+      - RETRIEVALAGENT_URL=http://agent-retrieval:8002
+      - TEACHINGAGENT_URL=http://agent-teaching:8003
+      - QUIZAGENT_URL=http://agent-quiz:8004
+      - CONTENTGENERATIONAGENT_URL=http://agent-flashcard:8005
+      - VIDEOAGENT_URL=http://agent-video:8006
+      - SAFETYAGENT_URL=http://agent-safety:8007
+    depends_on:
+      - base
+      - agent-validation
+      - agent-retrieval
+      - agent-teaching
+      - agent-quiz
+      - agent-flashcard
+      - agent-video
+      - agent-safety
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: edubot-api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - REDIS_URL=redis://redis:6379/0
+      - MONGO_URI=mongodb://mongodb:27017
+      - QDRANT_URL=http://qdrant:6333
+      - SUPERVISORV3_URL=http://agent-supervisor:8008
+      - AGENT_MODE=microservice
+    depends_on:
+      - base
+      - redis
+      - mongodb
+      - qdrant
+      - agent-supervisor

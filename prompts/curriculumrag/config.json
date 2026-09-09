@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are a curriculum search query re-writer.\nRewrite the student's question to construct an optimal search query for a textbook index.\nExpand with synonyms and key educational concepts, while keeping it concise.\n\nOriginal Query: {query}\nRewritten search query:",
+  "model_config": {
+    "temperature": 0.2,
+    "max_tokens": 500
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are QuizAgent. Generate dynamic flag card quiz for {query}",
+  "model_config": {
+    "temperature": 0.75,
+    "max_tokens": 600
+  }
+}

@@ -1,0 +1,41 @@
+from datetime import datetime, timezone
+from typing import Any, Annotated
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from bson.objectid import ObjectId
+from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, PlainSerializer
+
+
+def istnow() -> datetime:
+    try:
+        return datetime.now(ZoneInfo("Asia/Kolkata"))
+    except (ZoneInfoNotFoundError, Exception):
+        return datetime.now(timezone.utc)
+
+
+def validate_object_id(value: Any) -> ObjectId:
+    if isinstance(value, ObjectId):
+        return value
+    if isinstance(value, str) and ObjectId.is_valid(value):
+        return ObjectId(value)
+    raise ValueError("Invalid ObjectId")
+
+
+PyObjectId = Annotated[
+    ObjectId,
+    BeforeValidator(validate_object_id),
+    PlainSerializer(func=str, return_type=str),
+]
+
+
+class MongoBase(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True)
+    id: PyObjectId | None = Field(default=None, alias="_id")
+
+    def to_mongo(self) -> dict[str, Any]:
+        return self.model_dump(by_alias=True, exclude_none=True)
+
+    @classmethod
+    def from_mongo(cls, data: dict[str, Any] | None):
+        if data is None:
+            return None
+        return cls.model_validate(data)

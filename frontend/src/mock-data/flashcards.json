@@ -1,0 +1,47 @@
+[
+  {
+    "id": "fc-1",
+    "chapterId": "c6-sci-ch1",
+    "term": "Carbohydrates",
+    "question": "What is the main role of Carbohydrates in our body?",
+    "answer": "Carbohydrates are energy-giving nutrients that provide quick energy to our body (e.g. starch in rice, wheat, and potatoes).",
+    "subject": "Science",
+    "color": "#4EA8DE"
+  },
+  {
+    "id": "fc-2",
+    "chapterId": "c6-sci-ch1",
+    "term": "Proteins",
+    "question": "Why are Proteins called 'Body-Building Foods'?",
+    "answer": "Proteins build muscles, repair damaged cells, and help growing children expand bone and muscle mass.",
+    "subject": "Science",
+    "color": "#4EA8DE"
+  },
+  {
+    "id": "fc-3",
+    "chapterId": "c6-sci-ch1",
+    "term": "Vitamin C Scurvy",
+    "question": "What deficiency disease is caused by lack of Vitamin C?",
+    "answer": "Scurvy (causing bleeding gums and slow healing of wounds). Found in citrus fruits like oranges and amla.",
+    "subject": "Science",
+    "color": "#4EA8DE"
+  },
+  {
+    "id": "fc-4",
+    "chapterId": "c6-math-ch1",
+    "term": "Indian Numeral System",
+    "question": "How are commas placed in the Indian System of Numeration?",
+    "answer": "The first comma comes after 3 digits from the right (thousands), and then commas come after every 2 digits (Lakhs, Crores). Example: 12,34,567.",
+    "subject": "Math",
+    "color": "#FFD166"
+  },
+  {
+    "id": "fc-5",
+    "chapterId": "c6-math-ch1",
+    "term": "Estimation Rule",
+    "question": "How do you round 68 to the nearest 10?",
+    "answer": "Look at the unit digit (8). Since 8 >= 5, round UP to 70!",
+    "subject": "Math",
+    "color": "#FFD166"
+  }
+]

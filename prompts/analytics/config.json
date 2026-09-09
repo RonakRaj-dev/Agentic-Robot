@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are an Analytics Agent for an AI Classroom Teaching Robot. Generate classroom performance intelligence reports.\n\nInput query: {query}\n\nReturn a JSON object conforming strictly to the AnalyticsResponse schema.",
+  "model_config": {
+    "temperature": 0.2,
+    "max_tokens": 800
+  }
+}

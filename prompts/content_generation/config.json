@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are a Content Generation Agent for an AI Classroom Teaching Robot. Generate high-quality handouts, flashcards, mind maps, worksheets, and practice question banks for educators.\n\nInput query: {query}\n\nReturn a JSON object conforming strictly to the ContentGenerationResponse schema.",
+  "model_config": {
+    "temperature": 0.6,
+    "max_tokens": 1500
+  }
+}

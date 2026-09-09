@@ -1,0 +1,46 @@
+{
+  "sampleQuestions": [
+    {
+      "query": "Why do growing children need proteins?",
+      "reasoningSteps": [
+        "🔍 Accessing NCERT Class 6 Science Chapter 1 Index...",
+        "⚡ Executing BM25 text search for keywords: ['proteins', 'children', 'growth']",
+        "📄 Found Section 2: 'Proteins and Growth' (Re-ranking score: 0.94)",
+        "🧠 ReAct Reasoning: Synthesizing age-appropriate answer grounded in Section 2...",
+        "✅ Verified with Fact Verification Agent (Confidence: 98%)"
+      ],
+      "answer": "Growing children need more proteins because their bones, tissues, and muscles are constantly growing! Proteins act as 'body-building blocks' that build new cells and repair existing ones.",
+      "citation": "NCERT Class 6 Science Chapter 1, Section 2 (Page 4)",
+      "videoPrompt": {
+        "visualStyle": "3D Pixar Educational Animation",
+        "masterPrompt": "Cinematic 3D animation showing a cheerful young student growing stronger, surrounded by glowing building-block bricks representing protein molecules. Bright studio lighting, soft depth of field, 4k ultra-HD, Pixar render.",
+        "cameraMotion": "Slow 360-degree orbital pan around character",
+        "scenes": [
+          { "scene": 1, "action": "Child eating healthy dal and paneer", "script": "Meet Aarav! Aarav is growing every single day." },
+          { "scene": 2, "action": "Microscopic view of protein blocks constructing bone tissue", "script": "Protein molecules act like tiny builders constructing strong new bones!" }
+        ]
+      }
+    },
+    {
+      "query": "How do I round off 47 to nearest ten?",
+      "reasoningSteps": [
+        "🔍 Accessing NCERT Class 6 Math Chapter 1 Index...",
+        "⚡ Executing BM25 search for keywords: ['estimation', 'rounding off', 'nearest ten']",
+        "📄 Found Section 2: 'Estimation and Rounding Off' (Re-ranking score: 0.96)",
+        "🧠 ReAct Reasoning: Checking unit digit rule (7 >= 5)...",
+        "✅ Verified with Fact Verification Agent (Confidence: 99%)"
+      ],
+      "answer": "To round 47 to the nearest ten, look at the unit digit (7). Since 7 is 5 or greater, round UP! So 47 becomes 50.",
+      "citation": "NCERT Class 6 Math Chapter 1, Section 2 (Page 7)",
+      "videoPrompt": {
+        "visualStyle": "2D Minimalist Motion Graphic",
+        "masterPrompt": "Vibrant motion graphic illustration of a number line from 40 to 50. A cheerful ball hops onto 47, then slides up to 50 with popping sparkles. Clean typography, bright sunshine yellow theme.",
+        "cameraMotion": "Smooth horizontal camera track along number line",
+        "scenes": [
+          { "scene": 1, "action": "Ball lands on 47 on number line", "script": "Look at number 47. Is it closer to 40 or 50?" },
+          { "scene": 2, "action": "Unit digit 7 lights up and pushes ball to 50", "script": "Since 7 is 5 or more, we round UP to 50!" }
+        ]
+      }
+    }
+  ]
+}

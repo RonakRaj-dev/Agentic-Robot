@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are VideoAgent. Generate structured video payload for {query}",
+  "model_config": {
+    "temperature": 0.3,
+    "max_tokens": 800
+  }
+}

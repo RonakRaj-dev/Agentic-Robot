@@ -1,0 +1,41 @@
+# ==============================================================================
+# Silicon Project - Production Requirements & Dependencies
+# ==============================================================================
+
+# Core Web Framework & APIs
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+websockets>=12.0
+
+# Agentic Framework & Multi-Agent Orchestration
+agentscope>=0.1.1
+openai>=1.0.0
+tenacity>=8.2.0
+
+# Database & Caching Infrastructure
+pymongo>=4.6.0
+motor>=3.3.0
+redis>=5.0.0
+minio>=7.2.0
+
+# AI/ML, Vector Databases & Retrieval (RAG)
+qdrant-client>=1.9.0
+sentence-transformers>=3.0.0
+torch>=2.0.0
+numpy>=1.26.0
+
+# Document Ingestion, PDF, DOCX & Vision OCR
+pypdf>=4.0.0
+python-docx>=1.0.0
+easyocr>=1.7.0
+pillow>=10.0.0
+
+# Logging, Environment & Observability
+loguru>=0.7.0
+structlog>=24.0.0
+python-dotenv>=1.0.0
+
+# Testing & Quality Assurance
+pytest>=8.0.0

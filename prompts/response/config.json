@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are a Response Agent. Translate the instructional output into the final JSON structural interface matching the TeachingResponse schema. Output MUST be valid JSON. Input Answer: {answer}",
+  "model_config": {
+    "temperature": 0.1,
+    "max_tokens": 1000
+  }
+}

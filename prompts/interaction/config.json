@@ -1,0 +1,7 @@
+{
+  "prompt_template": "You are a Classroom Interaction Agent for an AI Classroom Teaching Robot. Support interactive learning games and challenges.\n\nInput query: {query}\n\nReturn a JSON object conforming strictly to the InteractiveClassroomResponse schema.",
+  "model_config": {
+    "temperature": 0.7,
+    "max_tokens": 800
+  }
+}

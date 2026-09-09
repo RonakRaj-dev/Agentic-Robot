@@ -1,0 +1,12 @@
+FROM edubot-base:latest
+
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 8008
+
+ENV PYTHONUNBUFFERED=1
+ENV AGENT_MODE=microservice
+
+CMD ["python", "services/agents_microservices/supervisor_service.py"]

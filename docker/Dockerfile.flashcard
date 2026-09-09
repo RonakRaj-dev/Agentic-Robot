@@ -1,0 +1,11 @@
+FROM edubot-base:latest
+
+WORKDIR /app
+
+COPY . .
+
+EXPOSE 8005
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "services/agents_microservices/flashcard_service.py"]
