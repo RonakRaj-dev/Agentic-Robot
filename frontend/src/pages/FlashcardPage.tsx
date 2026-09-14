@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchFlashcards } from '../api/client';
 import type { Flashcard } from '../api/client';
 import { FlipCardDeck } from '../components/flashcard/FlipCardDeck';
+import { ArcadeLoader } from '../components/ArcadeLoader';
 
 interface FlashcardPageProps {
   chapterId: string;
@@ -17,9 +18,16 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
   subject = 'Science',
 }) => {
   const [cards, setCards] = useState<Flashcard[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchFlashcards(chapterId, classLevel, subject, chapterTitle).then(setCards);
+    setIsLoading(true);
+    fetchFlashcards(chapterId, classLevel, subject, chapterTitle).then((res) => {
+      setCards(res || []);
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
+    });
   }, [chapterId, classLevel, subject, chapterTitle]);
 
   return (
@@ -37,7 +45,17 @@ export const FlashcardPage: React.FC<FlashcardPageProps> = ({
         </p>
       </div>
 
-      <FlipCardDeck cards={cards} />
+      {isLoading ? (
+        <div className="py-8 flex justify-center">
+          <ArcadeLoader
+            title="GENERATING NCERT FLASHCARDS..."
+            subtitle={`Extracting curriculum concepts for Class ${classLevel} ${subject}: ${chapterTitle}...`}
+          />
+        </div>
+      ) : (
+        <FlipCardDeck cards={cards} />
+      )}
     </div>
   );
 };
+

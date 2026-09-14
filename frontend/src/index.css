@@ -128,3 +128,422 @@ h1, h2, h3, h4, h5, h6, .font-headline {
   background: #bc000a;
   border: 2px solid #1c1b1b;
 }
+
+/* ==========================================================================
+   LOADER VARIANT 1: WALKING ROBOT CHARACTER
+   ========================================================================== */
+.robot-loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  width: 200px;
+  position: relative;
+}
+.robot-loader {
+  transform: scale(0.75);
+  position: relative;
+  width: 200px;
+  height: 200px;
+  translate: 10px -10px;
+}
+.robot-loader svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.robot-head {
+  translate: 27px -30px;
+  z-index: 3;
+  animation: robot-bob 1s infinite ease-in;
+}
+.robot-bod {
+  translate: 0px 30px;
+  z-index: 3;
+  animation: robot-bob 1s infinite ease-in-out;
+}
+.robot-legr {
+  translate: 75px 135px;
+  z-index: 0;
+  animation: robot-rstep 1s infinite ease-in;
+  animation-delay: 0.45s;
+}
+.robot-legl {
+  translate: 30px 155px;
+  z-index: 3;
+  animation: robot-lstep 1s infinite ease-in;
+}
+.robot-gnd {
+  translate: -140px 0;
+  rotate: 10deg;
+  z-index: -1;
+  filter: blur(0.5px) drop-shadow(1px 3px 5px #000000);
+  opacity: 0.25;
+  animation: robot-scroll 5s infinite linear;
+}
+
+@keyframes robot-bob {
+  0%, 5%, 100% { transform: translateY(0) rotate(3deg); }
+  25% { transform: translateY(5px) rotate(0deg); }
+  50% { transform: translateY(0px) rotate(-3deg); }
+  70% { transform: translateY(5px) rotate(0deg); }
+}
+@keyframes robot-lstep {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  33% { transform: translateY(-15px) translate(32px) rotate(35deg); }
+  66% { transform: translateY(0) translate(25px) rotate(-25deg); }
+}
+@keyframes robot-rstep {
+  0%, 100% { transform: translateY(0) translate(0px) rotate(-5deg); }
+  33% { transform: translateY(-10px) translate(30px) rotate(35deg); }
+  66% { transform: translateY(0) translate(20px) rotate(-25deg); }
+}
+@keyframes robot-scroll {
+  0% { transform: translateY(25px) translate(50px); opacity: 0; }
+  33%, 66% { opacity: 0.25; }
+  100% { transform: translateY(-50px) translate(-100px); opacity: 0; }
+}
+
+/* ==========================================================================
+   LOADER VARIANT 2: CAPYBARA RUNNER
+   ========================================================================== */
+.capybaraloader {
+  width: 14em;
+  height: 10em;
+  position: relative;
+  z-index: 1;
+  --color: rgb(204, 125, 45);
+  --color2: rgb(83, 56, 28);
+  transform: scale(0.75);
+  margin: 0 auto;
+}
+.capybara {
+  width: 100%;
+  height: 7.5em;
+  position: relative;
+  z-index: 1;
+}
+.capy-loaderline-box {
+  width: 100%;
+  height: 2.5em;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.capy {
+  width: 85%;
+  height: 100%;
+  background: linear-gradient(var(--color), 90%, var(--color2));
+  border-radius: 45%;
+  position: relative;
+  z-index: 1;
+  animation: movebody 1s linear infinite;
+}
+.capyhead {
+  width: 7.5em;
+  height: 7em;
+  bottom: 0em;
+  right: 0em;
+  position: absolute;
+  background-color: var(--color);
+  z-index: 3;
+  border-radius: 3.5em;
+  box-shadow: -1em 0em var(--color2);
+  animation: movebody 1s linear infinite;
+}
+.capyear {
+  width: 2em;
+  height: 2em;
+  background: linear-gradient(-45deg, var(--color), 90%, var(--color2));
+  top: 0em;
+  left: 0em;
+  border-radius: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: 3;
+}
+.capyear:nth-child(2) {
+  left: 5em;
+  background: linear-gradient(25deg, var(--color), 90%, var(--color2));
+}
+.capyear2 {
+  width: 100%;
+  height: 1em;
+  background-color: var(--color2);
+  bottom: 0em;
+  left: 0.5em;
+  border-radius: 100%;
+  position: absolute;
+  transform: rotate(-45deg);
+}
+.capymouth {
+  width: 3.5em;
+  height: 2em;
+  background-color: var(--color2);
+  position: absolute;
+  bottom: 0em;
+  left: 2.5em;
+  border-radius: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5em;
+}
+.capylips {
+  width: 0.25em;
+  height: 0.75em;
+  border-radius: 100%;
+  transform: rotate(-45deg);
+  background-color: var(--color);
+}
+.capylips:nth-child(2) {
+  transform: rotate(45deg);
+}
+.capyeye {
+  width: 2em;
+  height: 0.5em;
+  background-color: var(--color2);
+  position: absolute;
+  bottom: 3.5em;
+  left: 1.5em;
+  border-radius: 5em;
+  transform: rotate(45deg);
+}
+.capyeye:nth-child(4) {
+  transform: rotate(-45deg);
+  left: 5.5em;
+  width: 1.75em;
+}
+.capyleg {
+  width: 6em;
+  height: 5em;
+  bottom: 0em;
+  left: 0em;
+  position: absolute;
+  background: linear-gradient(var(--color), 95%, var(--color2));
+  z-index: 2;
+  border-radius: 2em;
+  animation: movebody 1s linear infinite;
+}
+.capyleg2 {
+  width: 1.75em;
+  height: 3em;
+  bottom: 0em;
+  left: 3.25em;
+  position: absolute;
+  background: linear-gradient(var(--color), 80%, var(--color2));
+  z-index: 2;
+  border-radius: 0.75em;
+  box-shadow: inset 0em -0.5em var(--color2);
+  animation: moveleg 1s linear infinite;
+}
+.capyleg2:nth-child(3) {
+  width: 1.25em;
+  left: 0.5em;
+  height: 2em;
+  animation: moveleg2 1s linear infinite 0.075s;
+}
+
+@keyframes moveleg {
+  0% { transform: rotate(-45deg) translateX(-5%); }
+  50% { transform: rotate(45deg) translateX(5%); }
+  100% { transform: rotate(-45deg) translateX(-5%); }
+}
+@keyframes moveleg2 {
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(-45deg); }
+  100% { transform: rotate(45deg); }
+}
+@keyframes movebody {
+  0%, 100% { transform: translateX(0%); }
+  50% { transform: translateX(2%); }
+}
+.loaderline {
+  width: 50em;
+  height: 0.5em;
+  border-top: 0.5em dashed var(--color2);
+  animation: moveline 10s linear infinite;
+}
+@keyframes moveline {
+  0% { transform: translateX(0%); opacity: 0%; }
+  5%, 95% { opacity: 100%; }
+  100% { opacity: 0%; transform: translateX(-70%); }
+}
+
+/* ==========================================================================
+   LOADER VARIANT 3: FUTURISTIC SCI-FI ISOMETRIC NODE SERVER
+   ========================================================================== */
+.scifi-node-server-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+  overflow: visible;
+}
+#svg-global {
+  transform: scale(1.15);
+  overflow: visible;
+}
+@keyframes fade-particles {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+#particles {
+  animation: fade-particles 5s infinite alternate;
+}
+.particle {
+  animation: floatUp linear infinite;
+}
+.p1 { animation-duration: 2.2s; animation-delay: 0s; }
+.p2 { animation-duration: 2.5s; animation-delay: 0.3s; }
+.p3 { animation-duration: 2s; animation-delay: 0.6s; }
+.p4 { animation-duration: 2.8s; animation-delay: 0.2s; }
+.p5 { animation-duration: 2.3s; animation-delay: 0.4s; }
+.p6 { animation-duration: 3s; animation-delay: 0.1s; }
+.p7 { animation-duration: 2.1s; animation-delay: 0.5s; }
+.p8 { animation-duration: 2.6s; animation-delay: 0.2s; }
+.p9 { animation-duration: 2.4s; animation-delay: 0.3s; }
+
+@keyframes bounce-lines {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+#line-v1, #line-v2, #node-server, #panel-rigth, #reflectores, #particles {
+  animation: bounce-lines 3s ease-in-out infinite alternate;
+}
+#line-v2 { animation-delay: 0.2s; }
+#node-server, #panel-rigth, #reflectores, #particles { animation-delay: 0.4s; }
+
+/* ==========================================================================
+   LOADER VARIANT 4: TAPPING HAND
+   ========================================================================== */
+.tapping-hand-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 140px;
+}
+.tap-hand-box {
+  --skin-color: #E4C560;
+  --tap-speed: 0.6s;
+  --tap-stagger: 0.1s;
+  position: relative;
+  width: 80px;
+  height: 60px;
+  margin-left: 50px;
+}
+.tap-hand-box:before {
+  content: '';
+  display: block;
+  width: 180%;
+  height: 75%;
+  position: absolute;
+  top: 70%;
+  right: 20%;
+  background-color: black;
+  border-radius: 40px 10px;
+  filter: blur(10px);
+  opacity: 0.3;
+}
+.tap-palm {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--skin-color);
+  border-radius: 10px 40px;
+}
+.tap-thumb {
+  position: absolute;
+  width: 120%;
+  height: 38px;
+  background-color: var(--skin-color);
+  bottom: -18%;
+  right: 1%;
+  transform-origin: calc(100% - 20px) 20px;
+  transform: rotate(-20deg);
+  border-radius: 30px 20px 20px 10px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  border-left: 2px solid rgba(0, 0, 0, 0.1);
+}
+.tap-thumb:after {
+  width: 20%;
+  height: 60%;
+  content: '';
+  background-color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  bottom: -8%;
+  left: 5px;
+  border-radius: 60% 10% 10% 30%;
+  border-right: 2px solid rgba(0, 0, 0, 0.05);
+}
+.tap-finger {
+  position: absolute;
+  width: 80%;
+  height: 35px;
+  background-color: var(--skin-color);
+  bottom: 32%;
+  right: 64%;
+  transform-origin: 100% 20px;
+  animation-duration: calc(var(--tap-speed) * 2);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  transform: rotate(10deg);
+}
+.tap-finger:before {
+  content: '';
+  position: absolute;
+  width: 140%;
+  height: 30px;
+  background-color: var(--skin-color);
+  bottom: 8%;
+  right: 65%;
+  transform-origin: calc(100% - 20px) 20px;
+  transform: rotate(-60deg);
+  border-radius: 20px;
+}
+.tap-finger:nth-child(1) {
+  animation-delay: 0;
+  filter: brightness(70%);
+  animation-name: tap-upper-1;
+}
+.tap-finger:nth-child(2) {
+  animation-delay: var(--tap-stagger);
+  filter: brightness(80%);
+  animation-name: tap-upper-2;
+}
+.tap-finger:nth-child(3) {
+  animation-delay: calc(var(--tap-stagger) * 2);
+  filter: brightness(90%);
+  animation-name: tap-upper-3;
+}
+.tap-finger:nth-child(4) {
+  animation-delay: calc(var(--tap-stagger) * 3);
+  filter: brightness(100%);
+  animation-name: tap-upper-4;
+}
+
+@keyframes tap-upper-1 {
+  0%, 50%, 100% { transform: rotate(10deg) scale(0.4); }
+  40% { transform: rotate(50deg) scale(0.4); }
+}
+@keyframes tap-upper-2 {
+  0%, 50%, 100% { transform: rotate(10deg) scale(0.6); }
+  40% { transform: rotate(50deg) scale(0.6); }
+}
+@keyframes tap-upper-3 {
+  0%, 50%, 100% { transform: rotate(10deg) scale(0.8); }
+  40% { transform: rotate(50deg) scale(0.8); }
+}
+@keyframes tap-upper-4 {
+  0%, 50%, 100% { transform: rotate(10deg) scale(1); }
+  40% { transform: rotate(50deg) scale(1); }
+}
+

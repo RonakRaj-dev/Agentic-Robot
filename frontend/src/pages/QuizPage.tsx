@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchQuiz } from '../api/client';
 import type { QuizQuestion } from '../api/client';
 import { QuizCard } from '../components/quiz/QuizCard';
+import { ArcadeLoader } from '../components/ArcadeLoader';
 
 interface QuizPageProps {
   chapterId: string;
@@ -17,9 +18,16 @@ export const QuizPage: React.FC<QuizPageProps> = ({
   subject = 'Science',
 }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchQuiz(chapterId, classLevel, subject, chapterTitle).then(setQuestions);
+    setIsLoading(true);
+    fetchQuiz(chapterId, classLevel, subject, chapterTitle).then((res) => {
+      setQuestions(res || []);
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
+    });
   }, [chapterId, classLevel, subject, chapterTitle]);
 
   return (
@@ -37,7 +45,17 @@ export const QuizPage: React.FC<QuizPageProps> = ({
         </p>
       </div>
 
-      <QuizCard questions={questions} chapterTitle={chapterTitle} />
+      {isLoading ? (
+        <div className="py-8 flex justify-center">
+          <ArcadeLoader
+            title="GENERATING NCERT CHAPTER QUIZ..."
+            subtitle={`Deploying AI agents for Class ${classLevel} ${subject}: ${chapterTitle}...`}
+          />
+        </div>
+      ) : (
+        <QuizCard questions={questions} chapterTitle={chapterTitle} />
+      )}
     </div>
   );
 };
+

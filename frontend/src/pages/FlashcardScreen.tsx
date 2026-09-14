@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { Flashcard } from '../api/client';
 import { fetchFlashcards } from '../api/client';
+import { ArcadeLoader } from '../components/ArcadeLoader';
 
 interface FlashcardScreenProps {
   chapterId: string;
@@ -16,16 +17,21 @@ export const FlashcardScreen: React.FC<FlashcardScreenProps> = ({
   subject,
 }) => {
   const [cards, setCards] = useState<Flashcard[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [masteredSet, setMasteredSet] = useState<Set<number>>(new Set());
 
   useEffect(() => {
+    setIsLoading(true);
     fetchFlashcards(chapterId, classLevel, subject, chapterTitle).then((fetched) => {
       setCards(fetched || []);
       setCurrentIndex(0);
       setMasteredSet(new Set());
       setIsFlipped(false);
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
     });
   }, [chapterId, classLevel, subject, chapterTitle]);
 
@@ -69,8 +75,18 @@ export const FlashcardScreen: React.FC<FlashcardScreenProps> = ({
         </div>
       </div>
 
-      {/* 3D Upside Down Flip Flashcard Container */}
-      <div className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto w-full my-auto [perspective:1000px]">
+      {isLoading ? (
+        <div className="flex-1 flex items-center justify-center my-auto py-8">
+          <ArcadeLoader
+            title="Loading Flashcards..."
+            subtitle={`Preparing notes for ${chapterTitle}...`}
+            defaultVariant="scifi-server"
+          />
+        </div>
+      ) : (
+        /* 3D Upside Down Flip Flashcard Container */
+        <div className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto w-full my-auto [perspective:1000px]">
+
         <div
           onClick={() => setIsFlipped(!isFlipped)}
           className={`w-full min-h-[340px] relative transition-transform duration-700 [transform-style:preserve-3d] cursor-pointer ${
@@ -151,6 +167,8 @@ export const FlashcardScreen: React.FC<FlashcardScreenProps> = ({
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 };
+

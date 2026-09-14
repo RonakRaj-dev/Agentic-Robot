@@ -530,6 +530,9 @@ async def get_chapters_endpoint(
         return []
 
 
+from services.flashcard_service import flashcard_service
+from services.quiz_service import quiz_service
+
 @router.get("/api/flashcards")
 @cached_endpoint(ttl_seconds=600)
 async def get_flashcards_endpoint(
@@ -539,36 +542,14 @@ async def get_flashcards_endpoint(
     subject: Optional[str] = "Science",
     chapter_title: Optional[str] = None
 ):
-    cls = class_level or class_param or 6
+    cls = class_level or class_param or 4
     subj = subject or "Science"
-    title_clean = chapter_title.replace("Chapter ", "").strip() if chapter_title else f"Core {subj} Concepts"
-    cid = chapter_id or f"ch_{cls}_1"
-
-    terms = [
-        ("Core Principle", f"What is the main foundational concept of {title_clean} in Class {cls} {subj}?", f"In Class {cls} {subj}, {title_clean} establishes basic rules, structures, and observational principles.", "from-amber-400 to-orange-500"),
-        ("Key Terminology", f"Which primary vocabulary term is essential for understanding {title_clean}?", f"Terminologies in {title_clean} help Class {cls} students describe scientific phenomena accurately.", "from-sky-400 to-blue-500"),
-        ("Practical Application", f"How do students apply concepts from {title_clean} in real life?", f"Concepts from {title_clean} explain real-world observations and practical experiments in Grade {cls}.", "from-emerald-400 to-teal-500"),
-        ("Curriculum Standard", f"What NCERT learning outcome is targeted in {title_clean}?", f"Developing logical reasoning, evidence-based analysis, and problem-solving skills for Class {cls}.", "from-purple-400 to-indigo-500"),
-        ("Step-by-Step Method", f"How do you solve step-by-step problems related to {title_clean}?", f"Break down the problem into given facts, apply relevant formulas/rules, and verify the final answer.", "from-rose-400 to-pink-500"),
-        ("Observation & Evidence", f"Why is scientific/logical observation critical in {title_clean}?", f"Observations provide empirical evidence that validates theoretical concepts in Class {cls} {subj}.", "from-amber-400 to-yellow-500"),
-        ("Properties & Rules", f"What main properties or formulas govern {title_clean}?", f"Properties in {title_clean} provide consistent rules for calculating and analyzing outcomes.", "from-cyan-400 to-blue-500"),
-        ("Cause & Effect", f"What relationship does {title_clean} explain between input and output?", f"It links cause (inputs/actions) directly to observable effects and measurable results in {subj}.", "from-green-400 to-emerald-500"),
-        ("Exam Takeaway", f"What is the most important takeaway from {title_clean} for tests?", f"Mastering core definitions, step-by-step solutions, and practical examples for Class {cls}.", "from-indigo-400 to-violet-500"),
-        ("Summary Insight", f"How does {title_clean} connect to future chapters in Class {cls}?", f"It acts as a building block for advanced topics across higher grade NCERT curricula.", "from-fuchsia-400 to-pink-500"),
-    ]
-
-    cards = []
-    for idx, (term, q, a, col) in enumerate(terms, 1):
-        cards.append({
-            "id": f"fc_{cls}_{subj}_{idx}",
-            "chapterId": cid,
-            "term": f"{title_clean}: {term}",
-            "question": q,
-            "answer": a,
-            "subject": subj,
-            "color": col
-        })
-    return cards
+    return await flashcard_service.get_flashcards_for_chapter(
+        class_level=int(cls),
+        subject=subj,
+        chapter_title=chapter_title or f"Core {subj} Concepts",
+        chapter_id=chapter_id
+    )
 
 @router.get("/api/quiz")
 @cached_endpoint(ttl_seconds=600)
@@ -581,80 +562,13 @@ async def get_quiz_endpoint(
 ):
     cls = class_level or class_param or 6
     subj = subject or "Science"
-    title_clean = chapter_title.replace("Chapter ", "").strip() if chapter_title else f"Core {subj} Concepts"
-    cid = chapter_id or f"ch_{cls}_1"
+    return await quiz_service.get_quiz_for_chapter(
+        class_level=int(cls),
+        subject=subj,
+        chapter_title=chapter_title or f"Core {subj} Concepts",
+        chapter_id=chapter_id
+    )
 
-    # 1. Attempt dynamic QuizAgent invocation with textbook MongoDB retrieval
-    try:
-        from agents.quiz_agent import QuizAgent
-        from agentscope.message import Msg
-        q_agent = QuizAgent(name="DynamicQuizAgent")
-        q_msg = Msg(
-            name="User",
-            content=title_clean,
-            metadata={"grade": cls, "subject": subj, "count": 5}
-        )
-        reply = await q_agent.reply(q_msg)
-        agent_result = getattr(reply, "metadata", {}).get("agent_result", {})
-        if agent_result.get("success", False):
-            cards = agent_result.get("data", {}).get("cards", [])
-            if cards and len(cards) >= 1:
-                return [
-                    {
-                        "id": c.get("question_id", f"qz_{cls}_{idx}"),
-                        "chapterId": cid,
-                        "question": c.get("question"),
-                        "options": c.get("options"),
-                        "correctKey": c.get("correct_option"),
-                        "explanation": c.get("explanation")
-                    }
-                    for idx, c in enumerate(cards, 1)
-                ]
-    except Exception as e:
-        logger.warning(f"Dynamic QuizAgent generation fallback triggered: {e}")
-
-    # 2. Topic-Specific Pure Subject Fallbacks (No Meta-Fluff!)
-    if "line" in title_clean.lower() or "angle" in title_clean.lower():
-        fallback_questions = [
-            ("What is the complement of an angle measuring 35°?", "55°", "145°", "90°", "65°", "A", "Complementary angles sum to 90°. 90° - 35° = 55°."),
-            ("If two lines intersect and one angle is 60°, what is the measure of its vertically opposite angle?", "60°", "120°", "30°", "180°", "A", "Vertically opposite angles are always equal in measure."),
-            ("Two angles are supplementary if the sum of their measures is equal to:", "180°", "90°", "360°", "270°", "A", "Supplementary angles always add up to 180°."),
-            ("When two parallel lines are cut by a transversal, corresponding angles are:", "Equal", "Supplementary", "Complementary", "Unequal", "A", "Corresponding angles formed by a transversal intersecting parallel lines are equal."),
-            ("What is the measure of an angle which is equal to its own supplement?", "90°", "45°", "180°", "60°", "A", "Let the angle be x. x + x = 180° implies 2x = 180°, so x = 90°.")
-        ]
-    elif "math" in subj.lower() or "rational" in title_clean.lower() or "equation" in title_clean.lower():
-        fallback_questions = [
-            (f"What is the additive inverse of -5/7?", "5/7", "-7/5", "7/5", "1", "A", "The additive inverse of a number a is -a such that a + (-a) = 0."),
-            (f"Solve for x: 3x + 5 = 20", "x = 5", "x = 15", "x = 3", "x = 25", "A", "3x = 20 - 5 = 15, so x = 15 / 3 = 5."),
-            (f"Which property states that a + b = b + a?", "Commutative Property", "Associative Property", "Distributive Property", "Identity Property", "A", "The commutative property allows changing the order of addition."),
-            (f"What is the reciprocal of 4/9?", "9/4", "-4/9", "-9/4", "1", "A", "The reciprocal of a fraction a/b is b/a."),
-            (f"What is the sum of angles in a quadrilateral?", "360°", "180°", "540°", "720°", "A", "The interior angles of any quadrilateral always sum to 360°.")
-        ]
-    else:
-        fallback_questions = [
-            (f"What is the main functional process studied in {title_clean}?", f"Core concepts and chemical/physical interactions in {title_clean}", "Irrelevant observations", "Unrelated formulas", "Random guessing", "A", f"Understanding key functional processes in {title_clean}."),
-            (f"Which of the following best defines key terms in {title_clean}?", f"Exact textbook definitions and scientific/mathematical rules of {title_clean}", "Unverified assumptions", "Arbitrary definitions", "None of the above", "A", f"Scientific and mathematical definitions provide exact conceptual clarity."),
-            (f"What is the standard unit of measurement relevant to {title_clean}?", "SI Standard Unit", "Arbitrary Unit", "Non-standard Estimate", "Variable Scale", "A", "Standardized SI units enable consistent measurement."),
-            (f"Which fundamental rule governs {title_clean}?", f"The core laws and equations of {title_clean}", "Random variation", "Opposite rules", "None of the above", "A", f"Core laws provide predictable mathematical and scientific models."),
-            (f"How do we verify experimental or numerical results in {title_clean}?", "By step-by-step verification and formula checks", "By ignoring errors", "By guessing", "None of the above", "A", "Verification ensures accuracy and logical consistency.")
-        ]
-
-    return [
-        {
-            "id": f"qz_{cls}_{idx}",
-            "chapterId": cid,
-            "question": q_text,
-            "options": [
-                { "key": "A", "text": opt_a },
-                { "key": "B", "text": opt_b },
-                { "key": "C", "text": opt_c },
-                { "key": "D", "text": opt_d }
-            ],
-            "correctKey": c_key,
-            "explanation": exp
-        }
-        for idx, (q_text, opt_a, opt_b, opt_c, opt_d, c_key, exp) in enumerate(fallback_questions, 1)
-    ]
 
 
 @router.post("/api/login")

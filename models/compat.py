@@ -181,7 +181,18 @@ class OpenAIChatModel(ModelBase):
             else:
                 raise err
 
-        content_text = response.choices[0].message.content or ""
+        content_text = ""
+        if hasattr(response, "choices") and response.choices and len(response.choices) > 0:
+            content_text = getattr(response.choices[0].message, "content", "") or ""
+        elif isinstance(response, dict):
+            choices = response.get("choices", [])
+            if choices and len(choices) > 0:
+                msg_obj = choices[0].get("message", {})
+                content_text = msg_obj.get("content", "") if isinstance(msg_obj, dict) else str(msg_obj)
+            else:
+                content_text = response.get("text", "") or json.dumps(response)
+        else:
+            content_text = str(response)
         return type("ResponseCompat", (), {"text": content_text, "content": content_text})()
 
 class UserMsg(Msg):

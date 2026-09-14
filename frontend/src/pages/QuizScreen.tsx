@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { QuizQuestion } from '../api/client';
 import { fetchQuiz } from '../api/client';
+import { ArcadeLoader } from '../components/ArcadeLoader';
 
 interface QuizScreenProps {
   chapterId: string;
@@ -18,6 +19,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   onOpenAnalytics,
 }) => {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
@@ -25,6 +27,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
   const [isQuizComplete, setIsQuizComplete] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchQuiz(chapterId, classLevel, subject, chapterTitle).then((fetched) => {
       setQuestions(fetched || []);
       setCurrentIndex(0);
@@ -32,19 +35,23 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
       setSelectedOption(null);
       setShowRewardModal(false);
       setIsQuizComplete(false);
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
     });
   }, [chapterId, classLevel, subject, chapterTitle]);
 
   const currentQ = questions[currentIndex] || {
-    question: `What primary gas do plants absorb from the air during photosynthesis?`,
+    question: `What is the primary concept studied in ${chapterTitle}?`,
     options: [
-      { key: 'A', text: 'Oxygen' },
-      { key: 'B', text: 'Carbon Dioxide' },
-      { key: 'C', text: 'Nitrogen' },
-      { key: 'D', text: 'Hydrogen' },
+      { key: 'A', text: `Core principles and rules of ${chapterTitle}` },
+      { key: 'B', text: 'Unrelated observations' },
+      { key: 'C', text: 'Arbitrary assumptions' },
+      { key: 'D', text: 'None of the above' },
     ],
-    correctKey: 'B',
+    correctKey: 'A',
   };
+
 
   const handleConfirm = () => {
     if (!selectedOption) return;
@@ -104,9 +111,20 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
         </div>
       </div>
 
-      {/* Main Split View: Left Question Box vs Right Option Controls */}
-      {!isQuizComplete ? (
+      {/* Main Split View: Left Question Box vs Right Option Controls OR Arcade Loader */}
+      {isLoading ? (
+        <div className="flex-1 flex items-center justify-center my-auto py-8">
+          <ArcadeLoader
+            title="Loading Chapter Quiz..."
+            subtitle={`Loading questions for ${chapterTitle}...`}
+            defaultVariant="scifi-server"
+          />
+        </div>
+      ) : !isQuizComplete ? (
+
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
+
+
           {/* Left Pane: Question Box & Robot Character */}
           <div className="md:col-span-7 flex flex-col gap-6">
             <div className="bg-[#ffffff] pixel-border p-8 brutal-shadow-lg relative">
