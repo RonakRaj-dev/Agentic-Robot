@@ -3,9 +3,9 @@ import json
 import asyncio
 from unittest.mock import AsyncMock, patch
 
-from agents.quizAgent import QuizAgent
-from agents.videoAgent import VideoAgent
-from agents.supervisorAgentV2 import ClassroomSupervisorAgentV2
+from agents.quiz_agent import QuizAgent
+from agents.video_agent import VideoAgent
+from agents.supervisor_agent_v2 import ClassroomSupervisorAgentV2
 from state.agentState import AgentStateManager
 from models.schemas import QuizCardResponse, VideoAgentResponse
 

@@ -2,8 +2,8 @@ import time
 from loguru import logger
 from agentscope.message import UserMsg
 
-from agents.validatorAgent import ValidationAgent
-from agents.safetyAgent import SafetyAgent
+from agents.validator_agent import ValidationAgent
+from agents.safety_agent import SafetyAgent
 from agents.adaptive_learning_agent import AdaptiveLearningAgent
 from models.schemas import AgentResult
 

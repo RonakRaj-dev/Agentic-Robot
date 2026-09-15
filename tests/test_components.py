@@ -10,11 +10,11 @@ from models.schemas import AgentResult, TeachingResponse
 from models.llm_gateway import LLMGateway, LLMGatewayError
 from state.sessionState import SessionStateManager
 from state.agentState import AgentStateManager
-from agents.supervisorAgent import ClassroomSupervisorAgent
-from agents.validatorAgent import ValidationAgent
-from agents.safetyAgent import SafetyAgent
-from agents.teachingAgent import TeachingAgent
-from agents.responseAgent import ResponseAgent
+from agents.supervisor_agent import ClassroomSupervisorAgent
+from agents.validator_agent import ValidationAgent
+from agents.safety_agent import SafetyAgent
+from agents.teaching_agent import TeachingAgent
+from agents.response_agent import ResponseAgent
 from agentscope.message import UserMsg, AssistantMsg, TextBlock
 
 # --- FIXTURES ---
@@ -128,10 +128,10 @@ async def test_gateway_failover_to_fallback():
 # --- AGENT & ORCHESTRATOR PIPELINE TESTS (ASYNC) ---
 
 @pytest.mark.anyio
-@patch("agents.validatorAgent.LLMGateway")
-@patch("agents.safetyAgent.LLMGateway")
-@patch("agents.teachingAgent.LLMGateway")
-@patch("agents.responseAgent.LLMGateway")
+@patch("agents.validator_agent.LLMGateway")
+@patch("agents.safety_agent.LLMGateway")
+@patch("agents.teaching_agent.LLMGateway")
+@patch("agents.response_agent.LLMGateway")
 async def test_supervisor_pipeline_success(mock_response_gw, mock_teach_gw, mock_safety_gw, mock_val_gw):
     """Tests the entire orchestrator pipeline end-to-end under successful conditions."""
     
@@ -166,7 +166,7 @@ async def test_supervisor_pipeline_success(mock_response_gw, mock_teach_gw, mock
     assert "plants" in result_dict["data"]["key_points"]
 
 @pytest.mark.anyio
-@patch("agents.validatorAgent.LLMGateway")
+@patch("agents.validator_agent.LLMGateway")
 async def test_supervisor_pipeline_validation_fail(mock_val_gw):
     """Verifies that the supervisor pipeline stops and returns failed AgentResult if validation fails."""
     # Validation returns invalid JSON

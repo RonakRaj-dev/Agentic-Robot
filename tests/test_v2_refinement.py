@@ -5,11 +5,11 @@ from unittest.mock import MagicMock, patch, AsyncMock
 from agentscope.message import Msg, UserMsg
 
 import models.compat
-from agents.validatorAgent import ValidationAgent
+from agents.validator_agent import ValidationAgent
 from ai_teacher_robot.rag.schemas.retrieval_result import RetrievalResult
 from ai_teacher_robot.rag.retrieval.hybrid_search import HybridSearch
-from ai_teacher_robot.agents.verification.fact_verification_agent import FactVerificationAgent
-from agents.supervisorAgentV2 import ClassroomSupervisorAgentV2
+from agents.verification.fact_verification_agent import FactVerificationAgent
+from agents.supervisor_agent_v2 import ClassroomSupervisorAgentV2
 
 @pytest.fixture(autouse=True)
 def setup_mock_env():
@@ -96,13 +96,13 @@ async def test_fact_verification_agent_programmatic(mock_embs):
     assert "Shapes are round." in res["data"]["verified_answer"]
 
 @pytest.mark.anyio
-@patch("agents.validatorAgent.LLMGateway")
-@patch("agents.safetyAgent.LLMGateway")
-@patch("ai_teacher_robot.agents.retrieval.retrieval_planner_agent.LLMGateway")
-@patch("agents.supervisorAgentV2.CurriculumRAGAgent.reply")
-@patch("agents.teachingAgent.LLMGateway")
-@patch("ai_teacher_robot.agents.verification.fact_verification_agent.LLMGateway")
-@patch("agents.responseAgent.LLMGateway")
+@patch("agents.validator_agent.LLMGateway")
+@patch("agents.safety_agent.LLMGateway")
+@patch("agents.retrieval.retrieval_planner_agent.LLMGateway")
+@patch("agents.supervisor_agent_v2.CurriculumRAGAgent.reply")
+@patch("agents.teaching_agent.LLMGateway")
+@patch("agents.verification.fact_verification_agent.LLMGateway")
+@patch("agents.response_agent.LLMGateway")
 async def test_supervisor_v2_auth_and_subject(
     mock_resp_gw,
     mock_verify_gw,

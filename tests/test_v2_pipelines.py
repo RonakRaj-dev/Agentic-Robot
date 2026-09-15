@@ -14,8 +14,8 @@ from ai_teacher_robot.rag.chunking.recursive_chunker import RecursiveChunker
 from ai_teacher_robot.rag.embedding.embedding_generator import EmbeddingGenerator
 from ai_teacher_robot.rag.vector_store.qdrant_store import QdrantStore
 from ai_teacher_robot.repositories.curriculum_repository import CurriculumRepository
-from ai_teacher_robot.pipelines.curriculum_ingestion_pipeline import CurriculumIngestionPipeline
-from agents.supervisorAgentV2 import ClassroomSupervisorAgentV2
+from pipelines.curriculum_ingestion_pipeline import CurriculumIngestionPipeline
+from agents.supervisor_agent_v2 import ClassroomSupervisorAgentV2
 
 @pytest.fixture(autouse=True)
 def setup_mock_env():
@@ -113,13 +113,13 @@ async def test_ingestion_pipeline(mock_llm, mock_load):
     assert "Shapes and Space" in chunks[0].chunk_text
 
 @pytest.mark.anyio
-@patch("agents.validatorAgent.LLMGateway")
-@patch("agents.safetyAgent.LLMGateway")
-@patch("ai_teacher_robot.agents.retrieval.retrieval_planner_agent.LLMGateway")
-@patch("agents.supervisorAgentV2.CurriculumRAGAgent.reply")
-@patch("agents.teachingAgent.LLMGateway")
-@patch("ai_teacher_robot.agents.verification.fact_verification_agent.LLMGateway")
-@patch("agents.responseAgent.LLMGateway")
+@patch("agents.validator_agent.LLMGateway")
+@patch("agents.safety_agent.LLMGateway")
+@patch("agents.retrieval.retrieval_planner_agent.LLMGateway")
+@patch("agents.supervisor_agent_v2.CurriculumRAGAgent.reply")
+@patch("agents.teaching_agent.LLMGateway")
+@patch("agents.verification.fact_verification_agent.LLMGateway")
+@patch("agents.response_agent.LLMGateway")
 async def test_supervisor_v2_loop(
     mock_resp_gw,
     mock_verify_gw,

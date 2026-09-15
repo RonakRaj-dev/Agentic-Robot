@@ -380,7 +380,7 @@ async def run_textbook_ingestion():
     print(" 📑 OPTION 4: TEXTBOOK DATA INGESTION")
     print("="*50)
     try:
-        from ai_teacher_robot.pipelines.curriculum_ingestion_pipeline import CurriculumIngestionPipeline
+        from pipelines.curriculum_ingestion_pipeline import CurriculumIngestionPipeline
         pdf_path = safe_input("Enter path to PDF textbook file [Press Enter to cancel]: ").strip()
         if not pdf_path or not os.path.exists(pdf_path):
             print("Path does not exist or operation cancelled.")
