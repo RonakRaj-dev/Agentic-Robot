@@ -85,8 +85,11 @@ class ResponseAgent(Agent):
                 logger.warning(f"ResponseAgent JSON parse fallback: {parse_err}.")
                 parsed_data = {}
 
-            # Always ensure the full rich teaching explanation is preserved as the answer
-            parsed_data["answer"] = strain_text(explanation_text)
+            # Ensure teaching explanation is properly preserved or formatted
+            if "answer" not in parsed_data or not parsed_data["answer"]:
+                parsed_data["answer"] = strain_text(explanation_text)
+            else:
+                parsed_data["answer"] = strain_text(str(parsed_data["answer"]))
             
             if "summary" not in parsed_data or not parsed_data["summary"]:
                 parsed_data["summary"] = "NCERT curriculum lesson explanation."

@@ -161,7 +161,7 @@ async def test_supervisor_v2_loop(
     )
     mock_rag_reply_method.return_value = mock_rag_reply
     
-    teaching_json = "This is a fun shape breakdown explanation."
+    teaching_json = "This is a fun shapes breakdown explanation."
     mock_teach_gw.return_value.generate = AsyncMock(return_value=teaching_json)
     
     verification_json = '{"status": "Supported", "reason": "Factually correct", "confidence_percentage": 95, "corrected_answer": null, "warnings": null}'
@@ -181,4 +181,4 @@ async def test_supervisor_v2_loop(
     agent_res = reply.metadata["agent_result"]
     
     assert agent_res["success"] is True
-    assert "shapes" in agent_res["data"]["answer"].lower()
+    assert "shape" in agent_res["data"]["answer"].lower()

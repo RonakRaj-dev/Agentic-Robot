@@ -14,14 +14,16 @@ class HybridSearch:
     async def search(
         self,
         vector: List[float],
-        bm25_query: str,
+        bm25_query: Optional[str] = None,
         limit: int = 10,
         filters: Optional[Dict[str, Any]] = None,
+        query: Optional[str] = None,
     ) -> List[RetrievalResult]:
         """Runs dense vector search with query vector and BM25 search with keyword query, merging via RRF (k=60)."""
+        keyword_query = bm25_query or query or ""
         # 1. Run both searches
         semantic_res = await self.semantic_search.search(vector, limit=limit, filters=filters)
-        bm25_res = await self.bm25_search.search(bm25_query, limit=limit, filters=filters)
+        bm25_res = await self.bm25_search.search(keyword_query, limit=limit, filters=filters)
 
         # 2. Reciprocal Rank Fusion (RRF k=60)
         rrf_scores: Dict[str, float] = {}

@@ -111,9 +111,9 @@ class FactVerificationAgent(Agent):
             # 4. Generate Citations
             citations = self.citation_generator.generate_citations(retrieved_chunks)
             
-            # 5. Formulate final verified answer by preserving complete explanation
+            # 5. Formulate final verified answer by preserving verified explanation
             verified_sentences = [s for s in sentences if s not in unsupported_claims]
-            if len(verified_sentences) >= int(len(sentences) * 0.5) and len(" ".join(verified_sentences).strip()) > 60:
+            if verified_sentences:
                 verified_answer = " ".join(verified_sentences)
             else:
                 verified_answer = teaching_answer

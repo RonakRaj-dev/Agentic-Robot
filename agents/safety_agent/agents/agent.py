@@ -49,45 +49,52 @@ class SafetyAgent(Agent):
             )
 
         try:
-            config = self.state_manager.load_agent_config("SafetyAgent")
-            prompt = self.state_manager.get_system_prompt("SafetyAgent", query=query)
-            model_config = self.state_manager.get_model_config("SafetyAgent")
-            model_config = dict(model_config)
-            model_config["response_format"] = {"type": "json_object"}
+            from services.security_sanitizer import security_sanitizer
+            is_injection, _ = security_sanitizer.is_prompt_injection(query)
             
-            raw_response = await self.gateway.generate(
-                prompt + SAFETY_JSON_INSTRUCTION,
-                **model_config
-            )
-            
-            clean_str = raw_response.strip()
-            # Extract JSON substring if LLM wraps output in markdown code blocks
-            import re
-            json_match = re.search(r'\{.*\}', clean_str, re.DOTALL)
-            if json_match:
-                clean_str = json_match.group(0)
+            if is_injection:
+                is_safe = False
+                reason = "Adversarial prompt injection pattern detected."
+            else:
+                config = self.state_manager.load_agent_config("SafetyAgent")
+                prompt = self.state_manager.get_system_prompt("SafetyAgent", query=query)
+                model_config = self.state_manager.get_model_config("SafetyAgent")
+                model_config = dict(model_config)
+                model_config["response_format"] = {"type": "json_object"}
+                
+                raw_response = await self.gateway.generate(
+                    prompt + SAFETY_JSON_INSTRUCTION,
+                    **model_config
+                )
+                
+                clean_str = raw_response.strip()
+                # Extract JSON substring if LLM wraps output in markdown code blocks
+                import re
+                json_match = re.search(r'\{.*\}', clean_str, re.DOTALL)
+                if json_match:
+                    clean_str = json_match.group(0)
 
-            try:
-                data = json.loads(clean_str)
-                is_safe = data.get("safe", True)
-                reason = data.get("reason", "")
-            except Exception:
-                # Default to safe for standard curriculum queries if model formatting varies
-                is_safe = True
-                reason = ""
+                try:
+                    data = json.loads(clean_str)
+                    is_safe = data.get("safe", data.get("is_safe", True))
+                    reason = data.get("reason", "")
+                except Exception:
+                    # Default to safe for standard curriculum queries if model formatting varies
+                    is_safe = True
+                    reason = ""
             
             execution_time = time.time() - start_time
             
             if is_safe:
                 result = AgentResult(
                     success=True,
-                    data={"safe": True},
+                    data={"safe": True, "is_safe": True, "reason": reason},
                     execution_time=execution_time
                 )
             else:
                 result = AgentResult(
                     success=False,
-                    data={"safe": False},
+                    data={"safe": False, "is_safe": False, "reason": reason},
                     error=f"Safety violation: {reason}",
                     execution_time=execution_time
                 )
