@@ -67,7 +67,6 @@ downloads/
 eggs/
 .eggs/
 data/
-tests/
 lib/
 lib64/
 parts/
